@@ -50,7 +50,7 @@
             console.log("Ad detected. Speeding up playback.");
 
             // Speed up the ad
-            setPlaybackSpeed(64);
+            setPlaybackSpeed(16);
 
             // Attempt to skip the ad
             if (attemptToSkipAd()) {
