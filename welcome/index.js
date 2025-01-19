@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Rate button
     const rateBtn = document.querySelector('.action-btn:nth-child(1)');
     rateBtn.addEventListener('click', () => {
-        window.open('chrome://extensions/?id=YOUR_EXTENSION_ID');
+        window.open('https://chromewebstore.google.com/');
     });
 
     // Report Bug button
