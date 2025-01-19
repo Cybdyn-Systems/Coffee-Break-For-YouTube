@@ -32,7 +32,7 @@
      */
     function monitorAds() {
         const adContainer = document.querySelector('.ad-showing');
-
+    
         if (adContainer && !isAdPlaying) {
             // New ad detected
             isAdPlaying = true;
@@ -41,11 +41,13 @@
         } else if (!adContainer && isAdPlaying) {
             // Ad finished
             isAdPlaying = false;
-                console.log(`No ad detected. Restoring playback speed to ${userPlaybackRate}x.`);
-                setPlaybackSpeed(userPlaybackRate);
-            }
-        // Do nothing if (adContainer && isAdPlaying) or (!adContainer && !isAdPlaying)
+            console.log(`No ad detected. Restoring playback speed to ${userPlaybackRate}x.`);
+            setPlaybackSpeed(userPlaybackRate);
+                
+            // Send message to background script to increment counter
+            chrome.runtime.sendMessage({ action: "incrementAdCount" });
         }
+    }
 
     /**
      * Initializes the extension by setting up the interval to monitor ads.
