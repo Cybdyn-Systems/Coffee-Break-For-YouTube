@@ -25,28 +25,27 @@
         }
     }
 
+    let isAdPlaying = false;
+
     /**
      * Monitors for ads and manages playback speed accordingly.
      */
     function monitorAds() {
         const adContainer = document.querySelector('.ad-showing');
 
-        if (adContainer) {
-            // Ad is playing
+        if (adContainer && !isAdPlaying) {
+            // New ad detected
+            isAdPlaying = true;
             console.log("Ad detected. Speeding up playback.");
-
-            // Speed up the ad
             setPlaybackSpeed(16);
-        } else {
-            // No ad is playing
-            const currentUserSpeed = getUserPlaybackRate();
-            if (currentUserSpeed !== userPlaybackRate) {
-                userPlaybackRate = currentUserSpeed;
+        } else if (!adContainer && isAdPlaying) {
+            // Ad finished
+            isAdPlaying = false;
                 console.log(`No ad detected. Restoring playback speed to ${userPlaybackRate}x.`);
                 setPlaybackSpeed(userPlaybackRate);
             }
+        // Do nothing if (adContainer && isAdPlaying) or (!adContainer && !isAdPlaying)
         }
-    }
 
     /**
      * Initializes the extension by setting up the interval to monitor ads.
