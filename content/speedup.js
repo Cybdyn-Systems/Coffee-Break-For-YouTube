@@ -26,20 +26,6 @@
     }
 
     /**
-     * Attempts to click the "Skip Ad" button if it's available.
-     * @returns {boolean} True if the skip button was found and clicked, else false.
-     */
-    function attemptToSkipAd() {
-        const skipButton = document.querySelector('.ytp-ad-skip-button.ytp-button');
-        if (skipButton && skipButton.offsetParent !== null) { // Ensures the button is visible
-            skipButton.click();
-            console.log("Skip button clicked.");
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Monitors for ads and manages playback speed accordingly.
      */
     function monitorAds() {
@@ -51,13 +37,6 @@
 
             // Speed up the ad
             setPlaybackSpeed(16);
-
-            // Attempt to skip the ad
-            if (attemptToSkipAd()) {
-                // After skipping, restore the user's playback speed
-                userPlaybackRate = getUserPlaybackRate();
-                setPlaybackSpeed(userPlaybackRate);
-            }
         } else {
             // No ad is playing
             const currentUserSpeed = getUserPlaybackRate();
