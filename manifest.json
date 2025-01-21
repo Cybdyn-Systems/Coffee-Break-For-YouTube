@@ -20,7 +20,7 @@
   "content_scripts": [
     {
       "matches": ["*://www.youtube.com/*"],
-      "js": ["content/speedup.js"],
+      "js": ["content/adSpeedManager.js"],
       "run_at": "document_end"
     }
   ],

@@ -3,20 +3,14 @@
 (function() {
     const CHECK_INTERVAL = 250; // Milliseconds
     let userPlaybackRate = 1; // Default playback speed
+    let isAdPlaying = false;
+    let adCount = 0; // Track the current ad sequence number
 
-    /**
-     * Retrieves the current playback rate set by the user.
-     * @returns {number} The current playback rate.
-     */
     function getUserPlaybackRate() {
         const video = document.querySelector('video');
         return video ? video.playbackRate : 1;
     }
 
-    /**
-     * Sets the playback rate of the video element.
-     * @param {number} speed - The desired playback speed.
-     */
     function setPlaybackSpeed(speed) {
         const video = document.querySelector('video');
         if (video) {
@@ -25,43 +19,35 @@
         }
     }
 
-    let isAdPlaying = false;
-
-    /**
-     * Monitors for ads and manages playback speed accordingly.
-     */
     function monitorAds() {
         const adContainer = document.querySelector('.ad-showing');
-    
-        if (adContainer && !isAdPlaying) {
-            // New ad detected
-            isAdPlaying = true;
-            console.log("Ad detected. Speeding up playback.");
-            setPlaybackSpeed(16);
-        } else if (!adContainer && isAdPlaying) {
+        const video = document.querySelector('video');
+        
+        if (adContainer) {
+            if (!isAdPlaying || video.playbackRate !== 16) {
+                // Either new ad sequence started or speed was reset during ad
+                isAdPlaying = true;
+                console.log(`Ad #${++adCount} detected. Speeding up playback.`);
+                setPlaybackSpeed(16);
+            }
+        } else if (isAdPlaying) {
             // Ad finished
             isAdPlaying = false;
+            adCount = 0; // Reset counter when ads finish
             console.log(`No ad detected. Restoring playback speed to ${userPlaybackRate}x.`);
             setPlaybackSpeed(userPlaybackRate);
-                
+            
             // Send message to background script to increment counter
             chrome.runtime.sendMessage({ action: "incrementAdCount" });
         }
     }
 
-    /**
-     * Initializes the extension by setting up the interval to monitor ads.
-     */
     function init() {
-        // Initialize user's playback rate
         userPlaybackRate = getUserPlaybackRate();
         console.log(`Initial user playback speed: ${userPlaybackRate}x`);
-
-        // Set an interval to check for ads periodically
         setInterval(monitorAds, CHECK_INTERVAL);
     }
 
-    // Wait for the DOM to fully load before initializing
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
         init();
     } else {
