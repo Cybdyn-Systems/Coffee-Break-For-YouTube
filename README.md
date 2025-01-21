@@ -1,18 +1,17 @@
-# Coffee-Break-For-YouTube
+# Coffee Break for YouTube ☕️
 
-[![Manifest V3 Compatible](https://img.shields.io/badge/Manifest%20V3-Compatible-success)](https://developer.chrome.com/docs/extensions/mv3/intro/)
-[![Latest Release](https://img.shields.io/badge/Release-2025-blue)](https://github.com/realfishsam/Coffee-Break-For-YouTube)
+[![Manifest V3](https://img.shields.io/badge/Manifest%20V3-Compatible-success)](https://developer.chrome.com/docs/extensions/mv3/intro/) [![Release](https://img.shields.io/badge/Release-2025-blue)](https://github.com/realfishsam/Coffee-Break-For-YouTube)
+
+<img align="right" width="350" src="https://github.com/user-attachments/assets/47e961ef-5998-4599-94e2-cb30d740218b" alt="Coffee Break interface showing 36 ads skipped">
 
 Coffee-Break-For-YouTube is a Manifest V3 compliant Chrome extension that provides a unique approach to handling YouTube ads - instead of blocking them, it automatically speeds them up to 16x, making them practically unnoticeable.
 
-## Features
+## Key Features
 
 - 🚀 Automatically detects and speeds up ads to 16x speed
 - ⚡ Restores original playback speed when ads finish
 - 📊 Tracks the number of ads skipped
-- 🎯 Maintains your custom video playback speed settings
 - ✅ Fully compliant with Chrome's Manifest V3
-- 🛡️ No ad-blocking detection issues
 
 ## Installation
 
