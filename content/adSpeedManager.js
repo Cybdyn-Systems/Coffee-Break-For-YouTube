@@ -29,6 +29,8 @@
                 isAdPlaying = true;
                 console.log(`Ad #${++adCount} detected. Speeding up playback.`);
                 setPlaybackSpeed(16);
+                // Send message to background script to mute tab
+                chrome.runtime.sendMessage({ action: "muteTab" });
             }
         } else if (isAdPlaying) {
             // Ad finished
@@ -36,11 +38,13 @@
             adCount = 0; // Reset counter when ads finish
             console.log(`No ad detected. Restoring playback speed to ${userPlaybackRate}x.`);
             setPlaybackSpeed(userPlaybackRate);
+            // Send message to background script to unmute tab
+            chrome.runtime.sendMessage({ action: "unmuteTab" });
             
             // Send message to background script to increment counter
             chrome.runtime.sendMessage({ action: "incrementAdCount" });
         }
-    }
+    }    
 
     function init() {
         userPlaybackRate = getUserPlaybackRate();
