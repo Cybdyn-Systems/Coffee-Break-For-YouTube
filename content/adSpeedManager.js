@@ -22,26 +22,27 @@
     function monitorAds() {
         const adContainer = document.querySelector('.ad-showing');
         const video = document.querySelector('video');
-        
-        if (adContainer) {
-            if (!isAdPlaying || video.playbackRate !== 16) {
-                // Either new ad sequence started or speed was reset during ad
-                isAdPlaying = true;
-                console.log(`Ad #${++adCount} detected. Speeding up playback.`);
-                setPlaybackSpeed(16);
-                // Send message to background script to mute tab
-                chrome.runtime.sendMessage({ action: "muteTab" });
-            }
-        } else if (isAdPlaying) {
-            // Ad finished
-            isAdPlaying = false;
-            adCount = 0; // Reset counter when ads finish
-            console.log(`No ad detected. Restoring playback speed to ${userPlaybackRate}x.`);
-            setPlaybackSpeed(userPlaybackRate);
-            // Send message to background script to unmute tab
+        const adBlockerMessage = document.querySelector('ytd-enforcement-message-view-model #container');
+    
+        if (adBlockerMessage) {
             chrome.runtime.sendMessage({ action: "unmuteTab" });
-            
-            // Send message to background script to increment counter
+            window.location.href = window.location.href;
+            return;
+        }
+        
+        if (adContainer && video) {
+            // Always mute and speed up if there's an ad
+            if (!isAdPlaying) {
+                isAdPlaying = true;
+                adCount++;
+            }
+            setPlaybackSpeed(16);
+            chrome.runtime.sendMessage({ action: "muteTab" });
+        } else if (isAdPlaying) {
+            isAdPlaying = false;
+            adCount = 0;
+            setPlaybackSpeed(userPlaybackRate);
+            chrome.runtime.sendMessage({ action: "unmuteTab" });
             chrome.runtime.sendMessage({ action: "incrementAdCount" });
         }
     }    
