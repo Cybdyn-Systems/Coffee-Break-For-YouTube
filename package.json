@@ -1,0 +1,12 @@
+{
+  "name": "coffee-break-for-youtube",
+  "version": "1.0.0",
+  "description": "[![Manifest V3](https://img.shields.io/badge/Manifest%20V3-Compatible-success)](https://developer.chrome.com/docs/extensions/mv3/intro/) [![Release](https://img.shields.io/badge/Release-2025-blue)](https://github.com/realfishsam/Coffee-Break-For-YouTube)",
+  "main": "background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
