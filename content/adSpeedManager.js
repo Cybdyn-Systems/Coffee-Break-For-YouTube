@@ -2,9 +2,9 @@
 
 (function() {
     const CHECK_INTERVAL = 10; // Milliseconds
-    let userPlaybackRate = 1;
+    let userPlaybackRate = 1; // Default playback speed
     let isAdPlaying = false;
-    let adCount = 0;
+    let adCount = 0; // Track the current ad sequence number
     let lastVideo = null;
     const overlayId = 'black-ad-overlay';
 
@@ -67,6 +67,7 @@
                 console.log("[AD BLOCK] Ad started — saved rate:", userPlaybackRate);
             }
 
+            // Mute and speed up if there's an ad detected
             video.muted = true;
             video.playbackRate = 16;
             video.style.visibility = 'hidden';
@@ -81,6 +82,7 @@
 
             chrome.runtime.sendMessage({ action: "unmuteTab" });
             chrome.runtime.sendMessage({ action: "incrementAdCount" });
+            video.muted = false;
         }
     }
 
@@ -91,14 +93,6 @@
                 lastVideo = video;
                 video.muted = true;
                 console.log('[AD BLOCK] Muted new video element via observer.');
-
-                // Safety: Listen for any "play" events to re-mute if needed
-                video.addEventListener('play', () => {
-                    if (!video.muted) {
-                        video.muted = true;
-                        console.log('[AD BLOCK] Re-muted during play.');
-                    }
-                }, true);
             }
         });
 
